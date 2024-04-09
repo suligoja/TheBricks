@@ -3,17 +3,17 @@ function drawIt() {
     var y = 150;
     var dx = 2;
     var dy = 4;
-    var WIDTH;
-    var HEIGHT;
     var r = 10;
     var canvas = document.getElementById("canvas");
+    var WIDTH = canvas.width;
+    var HEIGHT = canvas.height;
     var ctx;
     var tocke = 0;
+    var HIGH_SCORE;
+    var HIGH_TIME;
 
     function init() {
         ctx = canvas.getContext("2d");
-        WIDTH = canvas.width;
-        HEIGHT = canvas.height;
         return setInterval(draw, 10);
         $("#tocke").html(tocke);
         sekunde = 0;
@@ -82,7 +82,7 @@ function drawIt() {
         //riši opeke
         for (i = 0; i < NROWS; i++) {
             for (j = 0; j < NCOLS; j++) {
-                if (bricks[i][j] == 1) {
+                if (bricks[i][j] == 1 || bricks[i][j] == 2 || bricks[i][j] == 3) {
                     rect((j * (BRICKWIDTH + PADDING)) + PADDING,
                         (i * (BRICKHEIGHT + PADDING)) + PADDING,
                         BRICKWIDTH, BRICKHEIGHT);
@@ -100,6 +100,16 @@ function drawIt() {
             bricks[row][col] = 0;
             tocke += 1; //v primeru, da imajo opeko večjo utež lahko prištevate tudi npr. 2 ali 3; pred tem bi bilo smiselno dodati še kakšen pogoj, ki bi signaliziral mesta opek, ki imajo višjo vrednost
             $("#tocke").html(tocke);
+        } else if (y < NROWS * rowheight && row >= 0 && col >= 0 && bricks[row][col] == 2) {
+            dy = -dy;
+            bricks[row][col] = 1;
+            tocke += 1; //v primeru, da imajo opeko večjo utež lahko prištevate tudi npr. 2 ali 3; pred tem bi bilo smiselno dodati še kakšen pogoj, ki bi signaliziral mesta opek, ki imajo višjo vrednost
+            $("#tocke").html(tocke);
+        } else if (y < NROWS * rowheight && row >= 0 && col >= 0 && bricks[row][col] == 3) {
+            dy = -dy;
+            bricks[row][col] = 2;
+            tocke += 1; //v primeru, da imajo opeko večjo utež lahko prištevate tudi npr. 2 ali 3; pred tem bi bilo smiselno dodati še kakšen pogoj, ki bi signaliziral mesta opek, ki imajo višjo vrednost
+            $("#tocke").html(tocke);
         }
         if (x + dx > WIDTH - r || x + dx < 0 + r)
             dx = -dx;
@@ -111,30 +121,32 @@ function drawIt() {
                 dx = 8 * ((x - (paddlex + paddlew / 2)) / paddlew);
                 dy = -dy;
                 start = true;
-            }
-            else if (y + dy > HEIGHT - r){
+            } else if (y + dy > HEIGHT - r) {
                 clearInterval(1);
-                localStorage.setItem("cas", izpisTimer);
+                localStorage.setItem("time", izpisTimer);
                 localStorage.setItem("score", tocke);
                 tocke = 0;
                 izpisTimer = "00:00";
                 $("#cas").html(izpisTimer);
                 $("#tocke").html(tocke);
-                console.log("Cas: "+localStorage.getItem("cas"));
-                console.log("Score: "+localStorage.getItem("score"));
-            }
 
+                console.log("Cas: " + localStorage.getItem("time"));
+                console.log("Score: " + localStorage.getItem("score"));
+                HIGH_SCORE = localStorage.getItem("score");
+                HIGH_TIME = localStorage.getItem("time");
+                tempS = HIGH_SCORE;
+                tempT = HIGH_TIME;
+                if (HIGH_SCORE >= tempS && HIGH_TIME >= tempT) {
+                    $("#rez1").html(HIGH_SCORE);
+                    $("#rez2").html(HIGH_TIME);
+                } else {
+                    $("#rez1").html(tempS);
+                    $("#rez2").html(tempT);
+                }
+            }
         }
         x += dx;
         y += dy;
-		
-		if (tocke >= 2) {
-        clearInterval(interval); // Stop the game loop
-        start = false; // Stop the timer
-        $("#cas").html(izpisTimer); // Update the displayed timer
-        document.getElementById("playAgainButton").style.display = "block"; // Display the "Play Again" button
-        return; // Exit the function
-    }
     }
     init_paddle();
 
@@ -160,9 +172,8 @@ function drawIt() {
     var canvasMaxX;
 
     function init_mouse() {
-        //canvasMinX = $("#canvas").offset().left;
         canvasMinX = $("canvas").offset().left;
-        canvasMaxX = canvasMinX + WIDTH;
+        canvasMaxX = canvasMinX + WIDTH - paddlew;
     }
 
     function onMouseMove(evt) {
@@ -192,7 +203,16 @@ function drawIt() {
         for (i = 0; i < NROWS; i++) {
             bricks[i] = new Array(NCOLS);
             for (j = 0; j < NCOLS; j++) {
-                bricks[i][j] = 1;
+                if (i == 0 && j == 0 || i == 0 && j == 1 || i == 0 && j == 2 ||
+                    i == 0 && j == 3 || i == 0 && j == 4 ||
+                    i == 1 && j == 0 || i == 2 && j == 0 || i == 3 && j == 0 || i == 4 && j == 0 ||
+                    i == 4 && j == 1 || i == 4 && j == 2 || i == 4 && j == 3 || i == 4 && j == 4 ||
+                    i == 1 && j == 4 || i == 2 && j == 4 ||
+                    i == 3 && j == 4) {
+                    bricks[i][j] = 1;
+                } else {
+                    bricks[i][j] = 1;//kolikokrat treba zadeti opeko
+                }
             }
         }
     }
@@ -213,15 +233,14 @@ function drawIt() {
             minuteI = ((minuteI = Math.floor(sekunde / 60)) > 9) ? minuteI : "0" + minuteI;
             izpisTimer = minuteI + ":" + sekundeI;
             $("#cas").html(izpisTimer);
-        }
-        else {
+        } else {
             sekunde = 0;
             //izpisTimer = "00:00";
             $("#cas").html(izpisTimer);
         }
     }
-    setInterval(timer,1000);
+    setInterval(timer, 1000);
 }
 function reloadPage() {
-    location.reload(); // Reload the webpage
+    location.reload(); 
 }
