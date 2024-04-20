@@ -3,28 +3,27 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="icon" type="image/png" href="slike/logo.png">    
     <link rel="stylesheet" href="style.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    
+	<script src="jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>The Bricks</title>
+	<script src="script.js"></script>
 </head>
 
-<body onload="drawIt();">
-		<h1>The Bricks</h1>
-	<div id="game-container">
-		<canvas id="canvas" width="500" height="500"></canvas>
-		<script src="script.js"></script><br>
-	<div id="info">	
-		<button id="playAgainButton" onclick="reloadPage()">Play Again</button><br>
-		<p>Točke: <mark id="tocke">0</mark></p>
-		<p>Čas: <mark id="cas">00:00</mark></p>
-	</div>
-	<div id="info1">	
-		<p>high score:</p>
-		<p>Točke: <mark id="rez1">0</mark></p>
-		<p>Čas: <mark id="rez2">00:00</mark></p>
-	 </div>
-	</div>
-</body>
+<body onload="drawIt()">
+  
+    <h1>THE BRICKS</h1>
+    <div id="center">
+        
+        <canvas id="canvas" width="500" height="500"></canvas>
+    </div>
+    <div class="centriraj">
+	<!--<button id="playAgainButton" onclick="pauseGame()">||</button>-->
+        <p class="tocke">TOČKE: <mark id="tocke">0</mark></p>
+        <p class="cas">ČAS: <mark id="cas">00:00</mark></p>
+    </div>
+ </body> 
 
 </html>
