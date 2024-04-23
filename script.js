@@ -30,7 +30,7 @@ var ballSpeed;
 
             function init() {
                 ctx = $('#canvas')[0].getContext("2d");
-                // dodajanje kode v metodo init
+                // dodajanje kode v metodo init 
                 tocke = 0;
                 start = false;
                 sekunde = 0;
@@ -55,6 +55,7 @@ var ballSpeed;
                     if (result.isConfirmed) {
                         var speed = result.value;
                         setBallSpeed(speed);
+						audio.play();
                     }
                 });
 
@@ -307,7 +308,6 @@ var ballSpeed;
             init_mouse();
             initbricks();
         }
-		var audio = new Audio("Sound/SwitchSound.mp3");
 function musicGame() {
   const musicButton = document.getElementById("musicButton");
   const audio = document.getElementById("backgroundMusic");

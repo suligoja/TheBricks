@@ -92,7 +92,7 @@ p{
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 }
 #musicButton{
-	background-image: url('slike/speaker.png');
+	background-image: url('slike/muted.png');
 	background-size: cover;
 	background-repeat: no-repeat;
 	position: relative;
