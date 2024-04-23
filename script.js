@@ -42,8 +42,8 @@ var ballSpeed;
                 HEIGHT = $("#canvas").height();
                 //welcome sweet alert
                 Swal.fire({
-                    title: 'WELCOME TO THE BRICKS GAME!',
-					html: 'Try to break all the bricks.<br> You can use keyboard arrows <br>or mouse to move the paddle. <br>  Ready?',                 
+                    title: 'DOBRODOŠLI V IGRI <br>THE BRICKS!',
+					html: 'Poskusite razbiti vse opeke.<br> Za premikanje ploščka lahko uporabite <br> puščice na tipkovnici ali miško. <br>  Pripravljeni?',                 
                     showConfirmButton: true,
                     confirmButtonText: 'Start',
 					color: 'cyan',
@@ -234,7 +234,7 @@ var ballSpeed;
                 if (y < NROWS * rowheight && row >= 0 && col >= 0 && bricks[row][col] == 1) {
                     dy = -dy; bricks[row][col] = 0;
                     var points = brickPoints[row]; // tocke za vrstico
-                    tocke += 1;//ce dami namesto 1 (points)bo dodalo toliko tock kot v kateri vrstici je opeka
+                    tocke += 1;//ce damo namesto 1 (points)bo dodalo toliko tock kot v kateri vrstici je opeka
                     $("#tocke").html(tocke);
                 }
 
@@ -307,33 +307,20 @@ var ballSpeed;
             init_mouse();
             initbricks();
         }
-/*function pauseGame() {
-	 clearInterval(intervalId);
-    Swal.fire({
-        title: 'Game Paused',
-        html: 'Your game is paused. Do you want to resume?',
-        icon: 'info',
-		color: 'cyan',
-		background: 'black',
-        showCancelButton: true,
-        confirmButtonColor: 'rgb(0, 151, 151)',
-        confirmButtonText: 'Resume',
-        cancelButtonText: 'End Game',
-        cancelButtonColor: 'rgb(155, 9, 171)',
-        customClass: {
-            title: 'pause-title-class',
-            htmlContainer: 'pause-html-class',
-            confirmButton: 'pause-confirm-button-class',
-            cancelButton: 'pause-cancel-button-class'
-        }
-    }).then((result) => {
-         if (result.isConfirmed) {
-            // Resume game logic
-            intervalId = setInterval(draw, 10); // Start the game loop again
-        } else if (result.dismiss === Swal.DismissReason.cancel) {
-            // End game logic
-            location.reload(); // Reload the page to restart the game
-        }
-    });
+		var audio = new Audio("Sound/SwitchSound.mp3");
+function musicGame() {
+  const musicButton = document.getElementById("musicButton");
+  const audio = document.getElementById("backgroundMusic");
+
+  const currentImage = musicButton.style.backgroundImage;
+
+  if (currentImage.includes("muted.png")) {
+    musicButton.style.backgroundImage = "url('slike/speaker.png')";
+    audio.play(); 
+  } else {
+    musicButton.style.backgroundImage = "url('slike/muted.png')";
+    audio.pause();
+  }
 }
-*/
+
+
